@@ -1,0 +1,133 @@
+.game_block{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.letters {
+    display: inherit;
+}
+
+.letter {
+    display: inline-block;
+    padding: 15 30;
+    border-radius: 5px;
+    background: linear-gradient(85deg,#434343,#262626);
+    color: #fff;
+    transition: .2s;
+    margin: 3px;
+    width: 25px;
+    height: 55px;
+    cursor: default;
+}
+
+.letter p {
+    font-family: MD Primer Bold,Rubik,Lato,Lucida Grande,Lucida Sans Unicode,Tahoma,Sans-Serif;
+    font-style: normal;
+    font-size: xxx-large;
+    margin: 0;
+    width: 50px;
+    margin-left: -12px;
+}
+
+.letters {
+    padding: 40px;
+}
+
+.answer_block {
+    display: inline;
+}
+
+.answer_block input {
+    text-align: center;
+}
+
+body {
+    background-color:#151421;
+}
+
+.button {
+    font-family: MD Primer Bold,Rubik,Lato,Lucida Grande,Lucida Sans Unicode,Tahoma,Sans-Serif;
+    font-style: normal;
+    background-color: #5e5e5e!important;
+    color: #fff!important;
+    border: 0;
+    border-bottom: 1px solid #262626;
+    border-right: 1px solid #262626;
+    box-shadow: inset 1px 1px 0 #777, 0 2px 3px rgb(0 0 0 / 40%);
+    display: inline-block;
+    font-weight: 700;
+    line-height: 1.4;
+    text-transform: uppercase;
+    text-decoration: none!important;
+    border-radius: 4px!important;
+    white-space: nowrap;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    transition: .07s;
+    position: relative;
+    cursor: default;
+}
+
+input {
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+    background: #eaeaea;
+    border: 1px solid #d4d4d4!important;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 0;
+    width: 100%;
+    font-size: 100%;
+    margin: 0;
+    vertical-align: baseline;
+    line-height: normal;
+}
+
+.answer_buttons {
+    padding: 15px 0px;
+}
+
+.loading .letter{
+  background-size: 200% 100%;
+  background-position-x: 180%;
+  animation: 1s loading ease-in-out infinite;
+}
+
+.loading a {
+    background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, .5) 50%,
+      rgba(255, 255, 255, 0) 60%
+    ) #ededed;
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: 1s loading ease-in-out infinite;
+    pointer-events: none;
+}
+
+.loading input {
+    background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, .5) 50%,
+      rgba(255, 255, 255, 0) 60%
+    ) #5e5e5e;
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: 1s loading ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes loading {
+  to {
+    background-position-x: -20%;
+  }
+}
+
+.message_of_result {
+    font-size: xx-large;
+}
