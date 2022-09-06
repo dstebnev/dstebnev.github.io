@@ -17,8 +17,6 @@ function main(){
     submitButton.onclick = submitAnswer;
     refresh_button.onclick = startGame;
     initCards();
-
-    getLongestWord();
 };
 
 function getLongestWord() {
