@@ -1,2 +1,2 @@
-# 8outof10cats.github.io
+# dstebnev.github.io
 little game
