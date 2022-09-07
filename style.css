@@ -69,7 +69,11 @@ body {
     text-align: center;
     transition: .07s;
     position: relative;
-    cursor: default;
+    cursor: pointer;;
+}
+
+.button:active {
+    transform: translateY(4px);
 }
 
 input {
