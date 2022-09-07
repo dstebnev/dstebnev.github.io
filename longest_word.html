@@ -1,3 +1,5 @@
+<html>
+<head>
 <script>
 // ЗДЕСЬ НАЧИНАЕТСЯ МОДУЛЬ, ПОТОМУ ЧТО Я НЕ УМЕЮ ПОДКЛЮЧАТЬ ИХ ОТДЕЛЬНО
 
@@ -516,16 +518,18 @@ function toPositiveInteger (n) {
   }
 
 
-var request = new XMLHttpRequest();
-request.open("GET", "https://dstebnev.github.io/words_dictionary.json", false);
-request.send(null)
-var jsonDict = JSON.parse(request.responseText);
+function main() {
+    var request = new XMLHttpRequest();
+    request.open("GET", "https://dstebnev.github.io/words_dictionary.json", false);
+    request.send(null)
+    var jsonDict = JSON.parse(request.responseText);
 
-const urlParams = new URLSearchParams(window.location.search);
-var letters = urlParams.get('letters');
-var lengthOfWord = urlParams.get('length');
+    const urlParams = new URLSearchParams(window.location.search);
+    var letters = urlParams.get('letters');
+    var lengthOfWord = urlParams.get('length');
 
-document.write(JSON.stringify({"word":getLongestWord(letters, lengthOfWord)}));
+    document.write(JSON.stringify({"word":getLongestWord(letters, lengthOfWord)}));
+}
 
 function getLongestWord(letters, lengthOfWord) {
     var iterArr = [];
@@ -543,5 +547,7 @@ function getLongestWord(letters, lengthOfWord) {
     return "";
 }
 
-
 </script>
+</head>
+<body onload="main()"></body>
+</html>
