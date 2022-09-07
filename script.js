@@ -17,7 +17,16 @@ function main(){
     submitButton.onclick = submitAnswer;
     refresh_button.onclick = startGame;
     initCards();
+    initDictionary();
 };
+
+function initDictionary() {
+  // var request = new XMLHttpRequest();
+  // request.open("GET", "words_dictionary.json", false);
+  // request.send(null)
+  // var jsonDict = JSON.parse(request.responseText);
+  // console.log(jsonDict['word']);
+}
 
 function getLongestWord() {
   var letters = 'EONODHARE';
@@ -163,7 +172,7 @@ function weightedRandom(items, weights) {
 
 function check_word_exists_in_dic(word) {
   var result_of_check = false;
-  const url = "https://api.wordnik.com/v4/word.json/" + word + "/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+  const url = "https://api.wordnik.com/v4/word.json/" + word + "/definitions?limit=2&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
   httpRequest = new XMLHttpRequest();
   httpRequest.open('GET', url, true);
   httpRequest.onreadystatechange = function(){
