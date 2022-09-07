@@ -519,6 +519,7 @@ function toPositiveInteger (n) {
 
 
 function main() {
+    console.log("мэйн вызывается");
     var request = new XMLHttpRequest();
     request.open("GET", "https://dstebnev.github.io/words_dictionary.json", false);
     request.send(null)
@@ -549,5 +550,5 @@ function getLongestWord(letters, lengthOfWord) {
 
 </script>
 </head>
-<body onload="main()"></body>
+<body onload="main();"></body>
 </html>
