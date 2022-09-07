@@ -518,12 +518,14 @@ function toPositiveInteger (n) {
   }
 
 
+var jsonDict = [];
+
 function main() {
     console.log("мэйн вызывается");
     var request = new XMLHttpRequest();
     request.open("GET", "https://dstebnev.github.io/words_dictionary.json", false);
     request.send(null)
-    var jsonDict = JSON.parse(request.responseText);
+    jsonDict = JSON.parse(request.responseText);
 
     const urlParams = new URLSearchParams(window.location.search);
     var letters = urlParams.get('letters');
