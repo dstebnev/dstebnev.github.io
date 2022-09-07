@@ -531,7 +531,7 @@ function main() {
     var letters = urlParams.get('letters');
     var lengthOfWord = urlParams.get('length');
 
-    document.write(JSON.stringify({"word":getLongestWord(letters, lengthOfWord)}));
+    document.write(getLongestWord(letters, lengthOfWord));
 }
 
 function getLongestWord(letters, lengthOfWord) {
