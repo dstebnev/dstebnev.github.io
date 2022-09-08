@@ -93,7 +93,7 @@ function addLetter(letter){
 
 function submitAnswer(){
   var input = document.getElementById('answer');
-  var word = input.value;
+  var word = input.value.toLowerCase();
   var gameBlock = document.getElementsByClassName('game_block')[0];
   var messageBlock = document.getElementsByClassName('message_of_result')[0];
 
