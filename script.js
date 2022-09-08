@@ -12,6 +12,7 @@ function main(){
     var consonantButton = document.getElementById("consonant");
     var submitButton = document.getElementById('answer_button');
     var refresh_button = document.getElementById('refresh_button');
+    var wordInput = document.getElementById("answer");
 
     vowelButton.onclick = getVowel;
     consonantButton.onclick = getConsonant;
@@ -19,6 +20,13 @@ function main(){
     refresh_button.onclick = startGame;
     initCards();
     initDictionary();
+
+    wordInput.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submitButton.click();
+      }
+    });
 };
 
 function initDictionary() {
