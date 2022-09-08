@@ -134,4 +134,6 @@ input {
 
 .message_of_result {
     font-size: xx-large;
+    font-family: MD Primer Bold,Rubik,Lato,Lucida Grande,Lucida Sans Unicode,Tahoma,Sans-Serif;
+    color: white;
 }

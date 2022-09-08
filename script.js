@@ -5,6 +5,7 @@ var consonants_weights = [1.4, 2.7, 3.9, 2.9, 2.0, 5.2, 0.2, 0.4, 3.4, 2.5, 7.2,
 var clicks = 0;
 var letters = [];
 var NUMBER_OF_LETTERS = 9;
+var jsonDict = [];
 
 function main(){
     var vowelButton = document.getElementById("vowel");
@@ -21,30 +22,11 @@ function main(){
 };
 
 function initDictionary() {
-  // var request = new XMLHttpRequest();
-  // request.open("GET", "words_dictionary.json", false);
-  // request.send(null)
-  // var jsonDict = JSON.parse(request.responseText);
-  // console.log(jsonDict['word']);
+  var request = new XMLHttpRequest();
+  request.open("GET", "https://dstebnev.github.io/words_dictionary.json", false);
+  request.send(null)
+  jsonDict = JSON.parse(request.responseText);
 }
-
-function getLongestWord() {
-  var letters = 'EONODHARE';
-  var url = "https://www.wordunscrambler.net/unscramble-letters.aspx?word=jfdjsjijsd";
-  httpRequest = new XMLHttpRequest();
-  httpRequest.open('GET', url, false);
-  httpRequest.setRequestHeader('X-Test', 'one');
-  httpRequest.send();
-
-  httpRequest.onreadystatechange = function(){
-    if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
-      console.log('запрос прошёл');
-      console.log(httpRequest.response);
-    } else {
-      console.log('С запросом возникла проблема.');
-    }   
-  }
-};
 
 function initCards(){
   var lettersBlock = document.getElementsByClassName('letters')[0];
@@ -109,10 +91,11 @@ function submitAnswer(){
 
   gameBlock.classList.add('loading');
   messageBlock.hidden = true;
+
   check_word(word, letters);
 }
 
-function check_word(word, letters){
+async function check_word(word, letters){
   var temp_list_of_letters = [...letters];
 
   for (var i=0; i<word.length; i++){
@@ -120,10 +103,12 @@ function check_word(word, letters){
       temp_list_of_letters = removeItemOnce(temp_list_of_letters, word[i]);
     }
     else {
-      return false;
+      show_result(false);
+      return;
     }
   }
-  return check_word_exists_in_dic(word);
+  check_word_exists_in_dic(word, letters);
+  // check_word_exists_in_dic(word);
 }
 
 function removeItemOnce(arr, value) {
@@ -170,34 +155,50 @@ function weightedRandom(items, weights) {
     }
 };
 
-function check_word_exists_in_dic(word) {
+function check_word_exists_in_dic(word, letters) {
   var result_of_check = false;
   const url = "https://api.wordnik.com/v4/word.json/" + word + "/definitions?limit=2&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
-  httpRequest = new XMLHttpRequest();
-  httpRequest.open('GET', url, true);
-  httpRequest.onreadystatechange = function(){
-    if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
-      console.log('запрос прошёл');
+
+  fetch(url).then(res => {
+    console.log('запрос прошёл');
+    // console.log(letters);
+    // console.log(res);
+    if(res.status == 200) {
       result_of_check = true;
+      fetch('https://functions.yandexcloud.net/d4e9t3cajh47hvuedekr?letters='+letters.join("")+'&minLength='+word.length).then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.longetsWord);
+        show_result(result_of_check, data.longetsWord);
+      }).catch(err => {
+        result_of_check = false;
+        show_result(result_of_check);
+      });
     } else {
-      console.log('С запросом возникла проблема.');
+      show_result(result_of_check);
     }
-    setTimeout(show_result, 300, result_of_check);
-  }
-  httpRequest.send();
-  return result_of_check;
+  }).catch(err => {
+    result_of_check = false;
+    show_result(result_of_check);
+  });
 };
 
-function show_result(result_of_check)
+
+function show_result(result_of_check, longetsWord='')
 {
   var messageBlock = document.getElementsByClassName('message_of_result')[0];
-  messageBlock.hidden = false;
+  messageBlock.hidden = false;  
 
   document.getElementsByClassName('game_block')[0].classList.remove('loading');
   if(result_of_check){
-    messageBlock.innerHTML = '👍';
+    messageBlock.innerHTML = 'Well done! 👍<br> You could do: '+capitalizeFirstLetter(longetsWord);
   }
   else {
-    messageBlock.innerHTML = '👎';
+    messageBlock.innerHTML = 'Try again! 🤔';
   }
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
