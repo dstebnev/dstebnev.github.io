@@ -27,6 +27,17 @@ function main(){
         submitButton.click();
       }
     });
+
+    window.addEventListener("keypress", function(event){
+      if (event.key === "v" && clicks < NUMBER_OF_LETTERS){
+        event.preventDefault();
+        vowelButton.click();
+      }
+      if (event.key === "c" && clicks < NUMBER_OF_LETTERS){
+        event.preventDefault();
+        consonantButton.click();
+      }
+    });
 };
 
 function initDictionary() {
@@ -80,8 +91,9 @@ function getConsonant(event){
 
 function checkEndOfChoice(){
   if(clicks == NUMBER_OF_LETTERS){
-    document.getElementsByClassName("choice")[0].hidden = true;
     document.getElementsByClassName("word_input")[0].hidden = false;
+    document.getElementsByClassName("choice")[0].hidden = true;
+    document.getElementById("answer").focus();
   }
 };
 

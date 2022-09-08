@@ -76,6 +76,10 @@ body {
     transform: translateY(4px);
 }
 
+.button:click {
+    transform: translateY(4px);
+}
+
 input {
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
     background: #eaeaea;
