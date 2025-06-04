@@ -7,7 +7,7 @@ var letters = [];
 var NUMBER_OF_LETTERS = 9;
 var jsonDict = [];
 
-function main(){
+async function main(){
     var vowelButton = document.getElementById("vowel");
     var consonantButton = document.getElementById("consonant");
     var submitButton = document.getElementById('answer_button');
@@ -19,7 +19,7 @@ function main(){
     submitButton.onclick = submitAnswer;
     refresh_button.onclick = startGame;
     initCards();
-    initDictionary();
+    await initDictionary();
 
     wordInput.addEventListener("keypress", function(event) {
       if (event.key === "Enter") {
@@ -40,11 +40,19 @@ function main(){
     });
 };
 
-function initDictionary() {
-  var request = new XMLHttpRequest();
-  request.open("GET", "https://dstebnev.github.io/words_dictionary.json", false);
-  request.send(null)
-  jsonDict = JSON.parse(request.responseText);
+var wordsByLength = {};
+
+async function initDictionary() {
+  const response = await fetch('words_dictionary.json');
+  jsonDict = await response.json();
+  wordsByLength = {};
+  for (const word in jsonDict) {
+    const len = word.length;
+    if (!wordsByLength[len]) {
+      wordsByLength[len] = [];
+    }
+    wordsByLength[len].push(word);
+  }
 }
 
 function initCards(){
@@ -116,28 +124,16 @@ function submitAnswer(){
 }
 
 async function check_word(word, letters){
-  var temp_list_of_letters = [...letters];
-
-  for (var i=0; i<word.length; i++){
-    if(temp_list_of_letters.includes(word[i])){
-      temp_list_of_letters = removeItemOnce(temp_list_of_letters, word[i]);
-    }
-    else {
-      show_result(false);
-      return;
-    }
+  const counts = getLetterCounts(letters);
+  if(!word || !jsonDict[word] || !canFormWord(word, counts)){
+    show_result(false);
+    return;
   }
-  check_word_exists_in_dic(word, letters);
-  // check_word_exists_in_dic(word);
+  const longest = findLongestWord(letters);
+  show_result(true, longest);
 }
 
-function removeItemOnce(arr, value) {
-  var index = arr.indexOf(value);
-  if (index > -1) {
-    arr.splice(index, 1);
-  }
-  return arr;
-}
+
 
 // Вспомогательные для логики функции 
 function weightedRandom(items, weights) {
@@ -175,34 +171,38 @@ function weightedRandom(items, weights) {
     }
 };
 
-function check_word_exists_in_dic(word, letters) {
-  var result_of_check = false;
-  const url = "https://api.wordnik.com/v4/word.json/" + word + "/definitions?limit=2&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
 
-  fetch(url).then(res => {
-    console.log('запрос прошёл');
-    // console.log(letters);
-    // console.log(res);
-    if(res.status == 200) {
-      result_of_check = true;
-      fetch('https://functions.yandexcloud.net/d4e9t3cajh47hvuedekr?letters='+letters.join("")+'&minLength='+word.length).then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data.longestWord);
-        show_result(result_of_check, data.longestWord);
-      }).catch(err => {
-        result_of_check = false;
-        show_result(result_of_check);
-      });
-    } else {
-      show_result(result_of_check);
+function getLetterCounts(arr) {
+  const counts = {};
+  for (const ch of arr) {
+    counts[ch] = (counts[ch] || 0) + 1;
+  }
+  return counts;
+}
+
+function canFormWord(word, counts) {
+  const wc = {};
+  for (const ch of word) {
+    wc[ch] = (wc[ch] || 0) + 1;
+    if (wc[ch] > (counts[ch] || 0)) {
+      return false;
     }
-  }).catch(err => {
-    result_of_check = false;
-    show_result(result_of_check);
-  });
-};
+  }
+  return true;
+}
+
+function findLongestWord(letters) {
+  const counts = getLetterCounts(letters);
+  for (let len = letters.length; len >= 1; len--) {
+    const words = wordsByLength[len] || [];
+    for (const w of words) {
+      if (canFormWord(w, counts)) {
+        return w;
+      }
+    }
+  }
+  return '';
+}
 
 
 function show_result(result_of_check, longestWord='')
