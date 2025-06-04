@@ -124,12 +124,15 @@ function submitAnswer(){
 }
 
 async function check_word(word, letters){
+  if(Object.keys(wordsByLength).length === 0){
+    await initDictionary();
+  }
   const counts = getLetterCounts(letters);
+  const longest = findLongestWord(letters);
   if(!word || !jsonDict[word] || !canFormWord(word, counts)){
-    show_result(false);
+    show_result(false, longest);
     return;
   }
-  const longest = findLongestWord(letters);
   show_result(true, longest);
 }
 
@@ -215,7 +218,7 @@ function show_result(result_of_check, longestWord='')
     messageBlock.innerHTML = 'Well done! 👍<br> You could do: '+capitalizeFirstLetter(longestWord);
   }
   else {
-    messageBlock.innerHTML = 'Try again! 🤔';
+    messageBlock.innerHTML = 'Try again! 🤔<br> You could do: '+capitalizeFirstLetter(longestWord);
   }
 }
 
