@@ -189,8 +189,8 @@ function check_word_exists_in_dic(word, letters) {
         return response.json();
       })
       .then((data) => {
-        console.log(data.longetsWord);
-        show_result(result_of_check, data.longetsWord);
+        console.log(data.longestWord);
+        show_result(result_of_check, data.longestWord);
       }).catch(err => {
         result_of_check = false;
         show_result(result_of_check);
@@ -205,14 +205,14 @@ function check_word_exists_in_dic(word, letters) {
 };
 
 
-function show_result(result_of_check, longetsWord='')
+function show_result(result_of_check, longestWord='')
 {
   var messageBlock = document.getElementsByClassName('message_of_result')[0];
   messageBlock.hidden = false;  
 
   document.getElementsByClassName('game_block')[0].classList.remove('loading');
   if(result_of_check){
-    messageBlock.innerHTML = 'Well done! 👍<br> You could do: '+capitalizeFirstLetter(longetsWord);
+    messageBlock.innerHTML = 'Well done! 👍<br> You could do: '+capitalizeFirstLetter(longestWord);
   }
   else {
     messageBlock.innerHTML = 'Try again! 🤔';
