@@ -13,7 +13,7 @@
 
 .letter {
     display: inline-block;
-    padding: 15 30;
+    padding: 15px 30px;
     border-radius: 5px;
     background: linear-gradient(85deg,#434343,#262626);
     color: #fff;
@@ -69,14 +69,10 @@ body {
     text-align: center;
     transition: .07s;
     position: relative;
-    cursor: pointer;;
+    cursor: pointer;
 }
 
 .button:active {
-    transform: translateY(4px);
-}
-
-.button:click {
     transform: translateY(4px);
 }
 
