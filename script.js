@@ -125,12 +125,9 @@ function submitAnswer(){
 
 async function check_word(word, letters){
   const counts = getLetterCounts(letters);
-  if(!word || !jsonDict[word] || !canFormWord(word, counts)){
-    show_result(false);
-    return;
-  }
   const longest = findLongestWord(letters);
-  show_result(true, longest);
+  const isValid = word && jsonDict[word] && canFormWord(word, counts);
+  show_result(isValid, longest);
 }
 
 
@@ -215,7 +212,7 @@ function show_result(result_of_check, longestWord='')
     messageBlock.innerHTML = 'Well done! 👍<br> You could do: '+capitalizeFirstLetter(longestWord);
   }
   else {
-    messageBlock.innerHTML = 'Try again! 🤔';
+    messageBlock.innerHTML = 'Try again! 🤔<br> You could do: '+capitalizeFirstLetter(longestWord);
   }
 }
 
